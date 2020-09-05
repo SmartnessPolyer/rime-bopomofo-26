@@ -98,14 +98,14 @@ translator:
     - xform/(^|[ '])o/$1S/
     - xform/i w([fmlnpg])/i'w$1/
     - xform/([ZCSrzcs])i/$1ㄭ/
-    - xform/(\w)z([1-5]|$|[ '])/$1ㄞ$2/
-    - xform/(\w)s([1-5]|$|[ '])/$1ㄟ$2/
-    - xform/(\w)f([1-5]|$|[ '])/$1ㄠ$2/
-    - xform/(\w)m([1-5]|$|[ '])/$1ㄡ$2/
-    - xform/(\w)l([1-5]|$|[ '])/$1ㄢ$2/
-    - xform/(\w)n([1-5]|$|[ '])/$1ㄣ$2/
-    - xform/(\w)p([1-5]|$|[ '])/$1ㄤ$2/
-    - xform/(\w)g([1-5]|$|[ '])/$1ㄥ$2/
+    - xform/(\w)z/$1ㄞ/
+    - xform/(\w)s/$1ㄟ/
+    - xform/(\w)f/$1ㄠ/
+    - xform/(\w)m/$1ㄡ/
+    - xform/(\w)l/$1ㄢ/
+    - xform/(\w)n/$1ㄣ/
+    - xform/(\w)p/$1ㄤ/
+    - xform/(\w)g/$1ㄥ/
     - xform/er|wr/ㄦ/
     - xform/(i|i?v)e|ea/$1ㄝ/
     - xform/(^|[ '])w/$1/
