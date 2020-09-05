@@ -1,0 +1,173 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: bopomofo_double
+  name: 注音・雙重甲式
+  version: '1.0.0'
+  author:
+    - 制訂者  教育部（章太炎、許壽裳、周樹人等） #ㄓˋㄐㄧㄥˋ
+  description: |
+    注音符號輸入，採用「雙重甲式」鍵盤排列。
+    可省略聲調或韻母部份。
+  
+  dependencies:
+    - stroke
+    - terra_pinyin
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 英文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    states: [ 傳統, 簡化 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator@custom_phrase
+    - reverse_lookup_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+speller:
+  alphabet: zyxwvutsrqponmlkjihgfedcba;,./-
+  initials: zyxwvutsrqponmlkjihgfedcba
+  finals: ';,./-'
+  delimiter: " '"
+  algebra:
+    - erase/^xx$/
+    - derive/^([a-z]+)[0-5]$/$1/
+    - xform/^m(\d)$/mu$1/  # 呣
+    - xform/r5?$/er5/  # 〜兒
+    - xform/iu/iou/
+    - xform/ui/uei/
+    - xform/ong/ung/
+    - xform/^yi?/i/
+    - xform/^wu?/u/
+    - xform/iu/v/
+    - xform/^([jqx])u/$1v/
+    - xform/([iuv])n/$1en/
+    - xform/^zh/A/
+    - xform/^ch/E/
+    - xform/^sh/O/
+    - xform/^([aoe].*)$/w$1/
+    - xform/^we(r|h)$/w$1/
+    - xform/(.)ai([1-5]?)$/$1Z$2/
+    - xform/(.)ei([1-5]?)$/$1S$2/
+    - xform/(.)ao([1-5]?)$/$1F$2/
+    - xform/(.)ou([1-5]?)$/$1M$2/
+    - xform/(.)an([1-5]?)$/$1L$2/
+    - xform/(.)ang([1-5]?)$/$1P$2/
+    - xform/(.)en([1-5]?)$/$1N$2/
+    - xform/(.)eng([1-5]?)$/$1G$2/
+    - abbrev/^([bpmfdtnlgkhjqxAEOrzcs]).+$/$1/
+    - abbrev/^([A-Za-z]+)\d$/$1/
+    - abbrev/^([bpmfdtnlgkhjqxAEOrzcs]).+(\d)$/$1$2/
+    - xlit/QWERTYOPASDFGHJKLZXCVBNM/qwertyopasdfghjklzxcvbnm/
+    - xlit|12345|;,./-|
+
+translator:
+  dictionary: terra_pinyin
+  prism: bopomofo_double
+  preedit_format:
+    - xlit|;,./-|12345|
+    - xform/(^|[ '])a/$1Z/
+    - xform/(^|[ '])e/$1C/
+    - xform/(^|[ '])o/$1S/
+    - xform/i w([fmlnpg])/i'w$1/
+    - xform/([ZCSrzcs])i/$1ㄭ/
+    - xform/(\w)z([1-5]|$|[ '])/$1ㄞ$2/
+    - xform/(\w)s([1-5]|$|[ '])/$1ㄟ$2/
+    - xform/(\w)f([1-5]|$|[ '])/$1ㄠ$2/
+    - xform/(\w)m([1-5]|$|[ '])/$1ㄡ$2/
+    - xform/(\w)l([1-5]|$|[ '])/$1ㄢ$2/
+    - xform/(\w)n([1-5]|$|[ '])/$1ㄣ$2/
+    - xform/(\w)p([1-5]|$|[ '])/$1ㄤ$2/
+    - xform/(\w)g([1-5]|$|[ '])/$1ㄥ$2/
+    - xform/er|wr/ㄦ/
+    - xform/(i|i?v)e|ea/$1ㄝ/
+    - xform/(^|[ '])w/$1/
+    - xform/ //
+    - xlit|bpmfdtnlgkhjqxZCSrzcsiuvaoe12345|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜˉˊˇˋ˙|
+
+custom_phrase:
+  dictionary: ""
+  user_dict: custom_phrase
+  db_class: stabledb
+  enable_completion: false
+  enable_sentence: true
+  initial_quality: 1
+  preedit_format:
+    __include: translator/preedit_format
+
+reverse_lookup:
+  dictionary: stroke
+  enable_completion: true
+  prefix: "`"
+  suffix: "'"
+  tips: 〔筆畫〕
+  preedit_format:
+    - xlit/hspnz/一丨丿丶乙/
+  comment_format:
+    - xform/e?r5$/er5/
+    - xform/iu/iou/
+    - xform/ui/uei/
+    - xform/ong/ung/
+    - xform/yi?/i/
+    - xform/wu?/u/
+    - xform/iu/v/
+    - xform/^([jqx])u/$1v/
+    - xform/([iuv])n/$1en/
+    - xform/zh/Z/
+    - xform/ch/C/
+    - xform/sh/S/
+    - xform/([zcsZCSr])i/$1/
+    - xform/ai/A/
+    - xform/ei/I/
+    - xform/ao/O/
+    - xform/ou/U/
+    - xform/ang/K/
+    - xform/eng/G/
+    - xform/an/M/
+    - xform/en/N/
+    - xform/er/R/
+    - xform/eh/E/
+    - xform/([iv])e/$1E/
+    - xlit/bpmfdtnlgkhjqxZCSrzcsiuvaoeEAIOUMNKGR12345/ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦˉˊˇˋ˙/
+
+punctuator:
+  import_preset: symbols
+
+key_binder:
+  import_preset: default
+  bindings:
+    - {accept: Return, send: "Shift+Return", when: has_menu}  #ㄓˊㄐㄧㄝˉㄕㄤˋㄆㄧㄥˊㄅㄧㄢˉㄇㄚˇ
+    - {accept: "Shift+Return", send: Return, when: has_menu}
+
+recognizer:
+  import_preset: default
+  patterns:
+    punct: '^/([0-9]0?|[A-Za-z]+)$'
+    reverse_lookup: "`[a-z]*'?$"
