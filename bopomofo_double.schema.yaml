@@ -3,12 +3,13 @@
 
 schema:
   schema_id: bopomofo_double
-  name: 注音・雙重甲式
+  name: 注音・雙重式
   version: '1.0.0'
   author:
     - 制訂者  教育部（章太炎、許壽裳、周樹人等） #ㄓˋㄐㄧㄥˋ
   description: |
     注音符號輸入，採用「雙重甲式」鍵盤排列。
+    加入空韻ㄭ。
     可省略聲調或韻母部份。
   
   dependencies:
