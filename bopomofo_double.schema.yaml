@@ -6,7 +6,7 @@ schema:
   name: 注音・雙重式
   version: '1.0.0'
   author:
-    - 制訂者  教育部（章太炎、許壽裳、周樹人等） #ㄓˋㄐㄧㄥˋ
+    - 制訂者  教育部（章太炎、許壽裳、周樹人等）
   description: |
     注音符號輸入，採用「雙重式」鍵盤排列。
     加入空韻ㄭ。
@@ -64,7 +64,6 @@ speller:
     - xform/r5?$/er5/  # 〜兒
     - xform/iu/iou/
     - xform/ui/uei/
-    - xform/ong/ung/
     - xform/^yi?/i/
     - xform/^wu?/u/
     - xform/iu/v/
@@ -74,15 +73,17 @@ speller:
     - xform/^ch/E/
     - xform/^sh/O/
     - xform/^([aoe].*)$/w$1/
-    - xform/^we(r|h)$/w$1/
-    - xform/(.)ai([1-5]?)$/$1Z$2/
-    - xform/(.)ei([1-5]?)$/$1S$2/
-    - xform/(.)ao([1-5]?)$/$1F$2/
-    - xform/(.)ou([1-5]?)$/$1M$2/
-    - xform/(.)an([1-5]?)$/$1L$2/
-    - xform/(.)ang([1-5]?)$/$1P$2/
-    - xform/(.)en([1-5]?)$/$1N$2/
-    - xform/(.)eng([1-5]?)$/$1G$2/
+    - derive/^w([aoe])([^aoe])([1-5]?)$/w$2/
+    - xform/ai/Z/
+    - xform/ei/S/
+    - xform/ao/F/
+    - xform/ou/M/
+    - xform/ang/P/
+    - xform/an/L/
+    - xform/eng/G/
+    - xform/en/N/
+    - xform/ong/J/
+    - xform/([1-5])([1-5])/$2/
     - abbrev/^([bpmfdtnlgkhjqxAEOrzcs]).+$/$1/
     - abbrev/^([A-Za-z]+)\d$/$1/
     - abbrev/^([bpmfdtnlgkhjqxAEOrzcs]).+(\d)$/$1$2/
@@ -107,9 +108,10 @@ translator:
     - xform/(\w)n/$1ㄣ/
     - xform/(\w)p/$1ㄤ/
     - xform/(\w)g/$1ㄥ/
+    - xform/(\w)j/$1工/
     - xform/er|wr/ㄦ/
     - xform/(i|i?v)e|ea/$1ㄝ/
-    - xform/(^|[ '])w/$1/
+    - xform/(^|[ '])w/$1〇/
     - xform/ //
     - xlit|bpmfdtnlgkhjqxZCSrzcsiuvaoe12345|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜˉˊˇˋ˙|
 
