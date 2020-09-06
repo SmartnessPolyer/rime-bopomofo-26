@@ -108,7 +108,7 @@ translator:
     - xform/(\w)n/$1ㄣ/
     - xform/(\w)p/$1ㄤ/
     - xform/(\w)g/$1ㄥ/
-    - xform/(\w)j/$1工/
+    - xform/(\w)j/$1ㆲ/
     - xform/er|wr/ㄦ/
     - xform/(i|i?v)e|ea/$1ㄝ/
     - xform/(^|[ '])w/$1〇/
@@ -146,7 +146,7 @@ reverse_lookup:
     - xform/zh/Z/
     - xform/ch/C/
     - xform/sh/S/
-    - xform/([zcsZCSr])i/$1/
+    - xform/([ZCSrzcs])i/$1/
     - xform/ai/A/
     - xform/ei/I/
     - xform/ao/O/
