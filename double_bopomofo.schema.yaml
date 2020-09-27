@@ -9,7 +9,7 @@ schema:
     - 制訂者  教育部
     - SmartnessPolyer
   description: |
-    注音符號輸入，採用「雙重式」鍵盤排列。
+    注音符號輸入，採用「拉丁雙重式」鍵盤排列，一鍵對多注。
     需空韻ㄭ、零聲母〇以佔位。
     可省略聲調部份。
   
@@ -52,6 +52,7 @@ engine:
   filters:
     - simplifier
     - uniquifier
+    - lua_filters@single_char_filter
 
 speller:
   alphabet: zyxwvutsrqponmlkjihgfedcbaDFJKL
@@ -69,49 +70,53 @@ speller:
     - xform/iu/v/
     - xform/^([jqx])u/$1v/
     - xform/([iuv])n/$1en/
-    - xform/^i([1-5]?)$/iw$1/
-    - xform/^u([1-5]?)$/uw$1/
+    - xform/^([iu])([1-5])$/$1$1$2/
     - xform/^zh/A/
-    - xform/^ch/E/
-    - xform/^sh/O/
-    - xform/^([aoe].*)$/w$1/
-    - xform/^wer/wr/
-    - xform/^weh/wp/
+    - xform/^ch/W/
+    - xform/^sh/E/
+    - xform/^([aoe].*)$/O$1/
+    - xform/e([hr])/$1/
     - xform/ai/S/
     - xform/ei/D/
     - xform/ao/F/
-    - xform/ou/H/
+    - xform/ou/J/
     - xform/ang/L/
-    - xform/an/J/
+    - xform/an/K/
     - xform/eng/G/
     - xform/en/N/
-    - xlit/AEOSDFHJNLG/aeosdfhjnlg/
+    # - derive/([bpmfdtnlgkhjqxAEOrzcsiuvw])([iuv]?)([aoeSDFJKNLG]?)([1-5])/$1$4/
+    # - abbrev/^([bpmfdtnlgkhjqxAEOrzcsiuv]).+(\d)$/$1$2/
+    - xlit/AWEOSDFJKNLG/aweosdfjknlg/
     - abbrev/^([a-z]).+([1-5])$/$1$2/
-    - derive/^([a-z]+)[1-5]$/$1/
+    - derive/([a-z]+)[1-5]/$1/
     - xlit|12345|DFJKL|
 
 translator:
   dictionary: terra_pinyin
   prism: double_bopomofo
   preedit_format:
-    - xform/(^|[ '])a/$1A/
-    - xform/(^|[ '])e/$1E/
-    - xform/(^|[ '])o/$1O/
-    - xform/([AEOrzcs])i/$1ㄭ/
+    - xform/y/y /
+    - xform/([AWErzcs])i/$1ㄭ/
+    - xform/(\w)a/$1ㄚ/
+    - xform/(\w)o/$1ㄛ/
+    - xform/(\w)e/$1ㄜ/
     - xform/(\w)s/$1ㄞ/
     - xform/(\w)d/$1ㄟ/
     - xform/(\w)f/$1ㄠ/
-    - xform/(\w)h/$1ㄡ/
-    - xform/(\w)j/$1ㄢ/
+    - xform/(\w)j/$1ㄡ/
+    - xform/(\w)k/$1ㄢ/
     - xform/(\w)n/$1ㄣ/
     - xform/(\w)l/$1ㄤ/
     - xform/(\w)g/$1ㄥ/
     - xform/([iv])e/$1ㄝ/
-    - xform/wr/ㄦ/
-    - xform/wp/ㄝ/
+    - xform/(^|[ '])o/$1〇/
+    - xform/〇r/ㄦ/
+    - xform/〇h/ㄝ/
     - xform/([DFJKL]) /$1/
-    - xlit|bpmfdtnlgkhjqxAEOrzcsiuvaoeDFJKLwy|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜˉˊˇˋ˙〇␣|
+    - xlit|bpmfdtnlgkhjqxawerzcsiuvDFJKLy|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩˉˊˇˋ˙␣|
     - xform/〇([ㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥ])/$1/
+    - xform/␣ /␣/
+    # - xform/ /　/
 
 custom_phrase:
   dictionary: ""
