@@ -96,9 +96,10 @@ translator:
   prism: double_bopomofo
   preedit_format:
     - xform/y/y /
-    - xform/([AWErzcs])i/$1ㄭ/
+    - xform/([awerzcs])i/$1ㄭ/
     - xform/(\w)a/$1ㄚ/
     - xform/(\w)o/$1ㄛ/
+    - xform/([iv])e/$1ㄝ/
     - xform/(\w)e/$1ㄜ/
     - xform/(\w)s/$1ㄞ/
     - xform/(\w)d/$1ㄟ/
@@ -108,7 +109,6 @@ translator:
     - xform/(\w)n/$1ㄣ/
     - xform/(\w)l/$1ㄤ/
     - xform/(\w)g/$1ㄥ/
-    - xform/([iv])e/$1ㄝ/
     - xform/(^|[ '])o/$1〇/
     - xform/〇r/ㄦ/
     - xform/〇h/ㄝ/
