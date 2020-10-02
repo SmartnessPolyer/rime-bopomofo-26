@@ -10,7 +10,7 @@ schema:
     - SmartnessPolyer
   description: |
     注音符號輸入，採用「拉丁雙重式」鍵盤排列，一鍵對多注。
-    需空韻ㄭ、零聲母〇以佔位。
+    需空韻ㄭ、零聲母ア以佔位。
     可省略聲調部份。
   
   dependencies:
@@ -57,7 +57,7 @@ engine:
 speller:
   alphabet: zyxwvutsrqponmlkjihgfedcbaDFJKL
   initials: zyxwvutsrqponmlkjihgfedcba
-  delimiter: " y"
+  delimiter: " '"
   algebra:
     - erase/^xx$/
     - xform/^m(\d)$/mu$1/  # 呣
@@ -67,15 +67,14 @@ speller:
     - xform/ong/ung/
     - xform/^yi?/i/
     - xform/^wu?/u/
-    - xform/iu/v/
-    - xform/^([jqx])u/$1v/
-    - xform/([iuv])n/$1en/
+    - xform/iu|v/Y/
+    - xform/^([jqx])u/$1Y/
+    - xform/([iuY])n/$1en/
     - xform/^([iu])([1-5])$/$1$1$2/
     - xform/^zh/A/
     - xform/^ch/W/
     - xform/^sh/E/
     - xform/^([aoe].*)$/O$1/
-    - xform/e([hr])/$1/
     - xform/ai/S/
     - xform/ei/D/
     - xform/ao/F/
@@ -84,9 +83,10 @@ speller:
     - xform/an/K/
     - xform/eng/G/
     - xform/en/N/
-    # - derive/([bpmfdtnlgkhjqxAEOrzcsiuvw])([iuv]?)([aoeSDFJKNLG]?)([1-5])/$1$4/
-    # - abbrev/^([bpmfdtnlgkhjqxAEOrzcsiuv]).+(\d)$/$1$2/
-    - xlit/AWEOSDFJKNLG/aweosdfjknlg/
+    - xform/e([hr])/$1/
+    # - derive/([bpmfdtnlgkhjqxAEOrzcsiu])([iuy]?)([aoeSDFJKNLG]?)([1-5])/$1$4/
+    # - abbrev/^([bpmfdtnlgkhjqxAEOrzcsiu]).+(\d)$/$1$2/
+    - xlit/YAWEOSDFJKNLG/yaweosdfjknlg/
     - abbrev/^([a-z]).+([1-5])$/$1$2/
     - derive/([a-z]+)[1-5]/$1/
     - xlit|12345|DFJKL|
@@ -95,11 +95,10 @@ translator:
   dictionary: terra_pinyin
   prism: double_bopomofo
   preedit_format:
-    - xform/y/y /
     - xform/([awerzcs])i/$1ㄭ/
     - xform/(\w)a/$1ㄚ/
     - xform/(\w)o/$1ㄛ/
-    - xform/([iv])e/$1ㄝ/
+    - xform/([iy])e/$1ㄝ/
     - xform/(\w)e/$1ㄜ/
     - xform/(\w)s/$1ㄞ/
     - xform/(\w)d/$1ㄟ/
@@ -109,14 +108,11 @@ translator:
     - xform/(\w)n/$1ㄣ/
     - xform/(\w)l/$1ㄤ/
     - xform/(\w)g/$1ㄥ/
-    - xform/(^|[ '])o/$1〇/
-    - xform/〇r/ㄦ/
-    - xform/〇h/ㄝ/
+    - xform/or/ㄦ/
+    - xform/oh/ㄝ/
+    - xform/o([^ ])/$1/
     - xform/([DFJKL]) /$1/
-    - xlit|bpmfdtnlgkhjqxawerzcsiuvDFJKLy|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩˉˊˇˋ˙␣|
-    - xform/〇([ㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥ])/$1/
-    - xform/␣ /␣/
-    # - xform/ /　/
+    - xlit|bpmfdtnlgkhjqxawerzcsiuyoDFJKL'|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩアˉˊˇˋ˙ |
 
 custom_phrase:
   dictionary: ""
@@ -171,6 +167,7 @@ key_binder:
   bindings:
     - {accept: Return, send: "Shift+Return", when: has_menu}  #直接上屏編碼
     - {accept: "Shift+Return", send: Return, when: has_menu}
+    - {accept: v, send: apostrophe, when: has_menu}
 
 recognizer:
   import_preset: default
