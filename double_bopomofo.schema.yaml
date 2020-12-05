@@ -1,0 +1,191 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: double_bopomofo
+  name: 注音〔雙碼〕
+  version: '1.2.0'
+  author:
+    - SmartnessPolyer
+  description: |
+    注音符號輸入，參照自然碼雙拼設計鍵盤排列。
+  
+  dependencies:
+    - stroke
+    - bopomofo
+    - terra_pinyin
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 英文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    states: [ 傳統, 簡化 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator@custom_phrase
+    - reverse_lookup_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+menu:
+  alternative_select_labels: ["甲", "乙", "丙", "丁", "戊"]
+  alternative_select_keys: "12560"
+
+speller:
+  alphabet: zyxwvutsrqponmlkjihgfedcba34789
+  initials: zyxwvutsrqponmlkjihgfedcba
+  finals: "34789"
+  delimiter: " '"
+  algebra:
+    - xform/^m(\d)$/mu$1/  # 呣
+    - xform/r5?$/er5/  # 〜兒
+    - xform/yu([1-5])$/yuyu$1/
+    - derive/y([aoe])/yi$1/
+    - erase/^yiai/
+    - derive/w([aen])/uu$1/
+    - derive/yu([aen])/yuu$1/
+    - derive/yong/yung/
+    - xform/yun/yuen/
+    - derive/yin/yen/
+    - xform/yu|v/Y/
+    - xform/^zh/A/
+    - xform/^ch/W/
+    - xform/^sh/E/
+    - xform/^([aoe].*)$/O$1/
+    - xform/eh/e/
+    - xform/iao/C/
+    - xform/uo/O/
+    - xform/uai/V/
+    - xform/ai/L/
+    - xform/ei/Z/
+    - xform/ao/K/
+    - xform/io?u/Q/
+    - xform/ou/B/
+    - xform/[iu]ang/D/
+    - xform/ang/H/
+    - xform/eng/G/
+    - xform/ian/M/
+    - xform/[uv]e/$1T/
+    - xform/ue?i/T/
+    - xform/uan/R/
+    - xform/an/J/
+    - xform/en/F/
+    - xform/ue?n/P/
+    - xform/(.)[iu]ang/$1D/
+    - xform/[iu]a/W/
+    - xform/i?ong/S/
+    - xform/ie/X/
+    - xform/ing/V/
+    - xform/in/N/
+    - xform/er/R/
+    - xlit/yw/iu/
+    - xform/^([jqx])u/$1Y/
+    - xlit/QWERTYUIOPASDFGHJKLZXCVBNM/qwertyuiopasdfghjklzxcvbnm/
+    - derive/([a-z]+)[1-5]/$1/
+    - xlit/12345/34789/
+    - abbrev/^([bpmfdtnlgkhjqxawerzcsiuy]).+(\d)$/$1$2/
+
+translator:
+  dictionary: terra_pinyin
+  prism: double_bopomofo
+  preedit_format:
+    - xform/([awerzcs])i/$1ㄭ/
+    - xform/([dtnlgkhawerzcs])o/$1ㄨㄛ/
+    - xform/(\w)a/$1ㄚ/
+    - xform/(\w)o/$1ㄛ/
+    - xform/([^iy])e/$1ㄜ/
+    - xform/([iy])e/$1ㄝ/
+    - xform/(\w)l/$1ㄞ/
+    - xform/(\w)z/$1ㄟ/
+    - xform/(\w)k/$1ㄠ/
+    - xform/(\w)b/$1ㄡ/
+    - xform/(\w)j/$1ㄢ/
+    - xform/(\w)f/$1ㄣ/
+    - xform/(\w)h/$1ㄤ/
+    - xform/(\w)g/$1ㄥ/
+    - xform/([pdnljqxi])w/$1ㄧㄚ/
+    - xform/(\w)x/$1ㄧㄝ/
+    - xform/(\w)m/$1ㄧㄢ/
+    - xform/(\w)c/$1ㄧㄠ/
+    - xform/(\w)q/$1ㄧㄡ/
+    - xform/([nljqxi])d/$1ㄧㄤ/
+    - xform/([gkhawerzcsu])w/$1ㄨㄚ/
+    - xform/([gkhaweu])v/$1ㄨㄞ/
+    - xform/([dtgkhawerzcsu])t/$1ㄨㄟ/
+    - xform/([dtnlgkhawerzcsu])p/$1ㄨㄣ/
+    - xform/([dtnlgkhawerzcsu])r/$1ㄨㄢ/
+    - xform/([gkhaweu])d/$1ㄨㄤ/
+    - xform/([nljqxy])t/$1ㄩㄝ/
+    - xform/([jqxy])r/$1ㄩㄢ/
+    - xform/([jqxy])p/$1ㄩㄣ/
+    - xform/(\w)n/$1ㄧㄣ/
+    - xform/([bpmfdtnljqxi])v/$1ㄧㄥ/
+    - xform/([dtnlgkhawrzcsu])s/$1ㄨㄥ/
+    - xform/is/ㄩㄥ/
+    - xform/([jqxy])s/$1ㄩㄥ/
+    - xform/or/ㄦ/
+    - xform/o(.)/$1/
+    - xform/iㄧ/i/
+    - xform/uㄨ/u/
+    - xform/yㄩ/y/
+    - xlit|bpmfdtnlgkhjqxawerzcsiuyo34789'|ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩ〇ˉˊˇˋ˙ |
+
+custom_phrase:
+  dictionary: ""
+  user_dict: custom_phrase
+  db_class: stabledb
+  enable_completion: false
+  enable_sentence: true
+  initial_quality: 1
+  preedit_format:
+    __include: translator/preedit_format
+
+reverse_lookup:
+  dictionary: stroke
+  enable_completion: true
+  prefix: "`"
+  suffix: "'"
+  tips: 〔筆畫〕
+  preedit_format:
+    - xlit/hspnz/一丨丿丶乙/
+  comment_format:
+    __include: bopomofo.schema:/reverse_lookup/comment_format
+
+punctuator:
+  import_preset: symbols
+
+key_binder:
+  import_preset: default
+  bindings:
+    - {accept: Return, send: "Shift+Return", when: has_menu}  #直接上屏注音符號
+    - {accept: "Shift+Return", send: Return, when: has_menu}
+
+recognizer:
+  import_preset: default
+  patterns:
+    punct: '^/([0-9]0?|[A-Za-z]+)$'
+    reverse_lookup: "`[a-z]*'?$"
